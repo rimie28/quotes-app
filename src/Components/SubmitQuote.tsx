@@ -1,8 +1,17 @@
 import { useState } from 'react';
 import * as React from 'react';
+import axios from 'axios';
 
 
 const SubmitQuote = () => {
+  const categories = [
+    {category: 'Star Wars', id: 'star-wars'},
+    {category: 'Famous people', id: 'famous-people'},
+    {category: 'Saying', id: 'saying'},
+    {category: 'Humour', id: 'humor'},
+    {category: 'Motivational', id: 'motivational'},
+  ]
+
   const [formState, setFormState] = useState({
     category: '',
     author: '',
@@ -12,13 +21,25 @@ const SubmitQuote = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormState(prevState => ({
-      ...prevState, [
-        name]: value
+      ...prevState,
+      [name]: value
     }));
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      await axios.post('https://server-1-adbbe-default-rtdb.europe-west1.firebasedatabase.app/quotes.json', formState);
+
+      setFormState({
+        author: '',
+        text: '',
+        category: ''
+      });
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return(
@@ -34,29 +55,35 @@ const SubmitQuote = () => {
               onChange={onChange}
               name="category"
               id="category"
-            ></select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="author" className="form-label">Author</label>
-            <input
-              className="form-control"
-              value={formState.author}
+            >
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.category}
+                </option>
+              ))}
+                </select>
+                </div>
+                <div className="form-group">
+                <label htmlFor="author" className="form-label">Author</label>
+                <input
+                className="form-control"
+                value={formState.author}
               onChange={onChange}
-              name = "author"
+              name="author"
               id="author"
             ></input>
           </div>
           <div className="form-group">
             <label htmlFor="text" className="form-label">Quote Text</label>
             <textarea
-            className="form-control"
-            value={formState.text}
+              className="form-control"
+              value={formState.text}
             onChange={onChange}
             name="text"
             id="text">
             </textarea>
           </div>
-          <button type="submit" className="btn btn-primary">Save</button>
+          <button type="submit" className="btn btn-primary mt-3">Save</button>
         </form>
       </div>
     </div>
