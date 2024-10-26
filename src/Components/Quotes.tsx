@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axiosAPI from '../axiosAPI.ts';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axiosAPI from "../axiosAPI.ts";
 
 interface Quote {
   id: string;
@@ -11,7 +11,7 @@ interface Quote {
 
 const Quotes = () => {
   const [quotes, setQuotes] = useState<Quote[]>([]);
-  const {categoryId} = useParams();
+  const { categoryId } = useParams();
 
   useEffect(() => {
     const getQuotes = async () => {
@@ -20,10 +20,10 @@ const Quotes = () => {
           ? `/quotes.json?orderBy="category"&equalTo="${categoryId}"`
           : `/quotes.json`;
 
-        const quotesResponse = await axiosAPI.get(url)
+        const quotesResponse = await axiosAPI.get(url);
         const data = quotesResponse.data;
 
-        const quotes = Object.keys(data).map(key => ({
+        const quotes = Object.keys(data).map((key) => ({
           id: key,
           ...data[key],
         }));
@@ -44,7 +44,7 @@ const Quotes = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
 export default Quotes;

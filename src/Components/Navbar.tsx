@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -7,15 +6,19 @@ const Navbar = () => {
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <Link className="nav-link" to="/">Quotes</Link>
+            <Link className="nav-link" to="/">
+              Quotes
+            </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/add-quote">Submit New Quote</Link>
+            <Link className="nav-link" to="/add-quote">
+              Submit New Quote
+            </Link>
           </li>
         </ul>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
